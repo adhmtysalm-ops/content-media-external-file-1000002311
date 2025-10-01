@@ -166,6 +166,19 @@
             opacity: 0.9;
         }
         
+        .blessing {
+            font-size: 1.5rem;
+            color: #fff;
+            margin: 20px 0;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 5px #fff, 0 0 10px #fff; }
+            to { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff; }
+        }
+        
         .btn {
             display: inline-block;
             background: white;
@@ -502,6 +515,7 @@
             <div class="hero-content">
                 <h2 class="floating">تلاوات قرآنية بصوت القارئ أدهم عطية</h2>
                 <p>استمع إلى أجمل التلاوات القرآنية بصوت شجي وعذب من القارئ الشاب أدهم عطية</p>
+                <div class="blessing">اللهم صل على نبينا محمد</div>
                 <a href="#recitations" class="btn pulse">استمع الآن</a>
             </div>
         </div>

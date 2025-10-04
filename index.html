@@ -22,6 +22,8 @@
             --dark: #212529;
             --text: #333;
             --card-bg: rgba(255, 255, 255, 0.9);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
         body {
@@ -57,7 +59,7 @@
         
         .container {
             width: 90%;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -71,6 +73,12 @@
             top: 0;
             z-index: 1000;
             backdrop-filter: blur(10px);
+            animation: slideDown 0.8s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
         
         .header-content {
@@ -157,6 +165,7 @@
             font-size: 3rem;
             margin-bottom: 20px;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out;
         }
         
         .hero p {
@@ -164,6 +173,7 @@
             max-width: 700px;
             margin: 0 auto 30px;
             opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s both;
         }
         
         .btn {
@@ -174,10 +184,11 @@
             border-radius: 30px;
             text-decoration: none;
             font-weight: bold;
-            transition: all 0.3s;
+            transition: var(--transition);
             border: none;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 1s ease-out 0.4s both;
         }
         
         .btn:hover {
@@ -197,6 +208,7 @@
             color: var(--primary);
             font-size: 2.2rem;
             position: relative;
+            animation: fadeIn 1s ease-out;
         }
         
         .section-title::after {
@@ -207,6 +219,12 @@
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             margin: 15px auto;
             border-radius: 2px;
+            animation: expandWidth 1s ease-out 0.5s both;
+        }
+        
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 80px; }
         }
         
         .about-content {
@@ -219,15 +237,18 @@
             flex: 1;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
             border: 3px solid white;
+            perspective: 1000px;
+            animation: slideInLeft 0.8s ease-out;
         }
         
         .about-image img {
             width: 100%;
             height: auto;
             display: block;
-            transition: transform 0.5s;
+            transition: var(--transition);
+            transform-style: preserve-3d;
         }
         
         .about-image:hover img {
@@ -239,7 +260,8 @@
             background: var(--card-bg);
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
+            animation: slideInRight 0.8s ease-out;
         }
         
         .about-text h3 {
@@ -261,7 +283,7 @@
             text-decoration: none;
             font-weight: bold;
             margin-top: 10px;
-            transition: all 0.3s;
+            transition: var(--transition);
             padding: 8px 15px;
             border-radius: 5px;
             background: rgba(255, 0, 0, 0.1);
@@ -278,30 +300,176 @@
             font-size: 1.2rem;
         }
         
-        /* قسم التلاوات */
+        /* قسم التلاوات - التصميم الجديد */
         .recitations {
             padding: 80px 0;
             background: white;
         }
         
-        .recitations-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        .recitations-layout {
+            display: flex;
             gap: 30px;
         }
         
-        .recitation-card {
+        .playlist-section {
+            flex: 1;
+            max-width: 350px;
+        }
+        
+        .playlist-container {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: sticky;
+            top: 100px;
+            max-height: 80vh;
+            overflow-y: auto;
+            transition: var(--transition);
+            animation: slideInLeft 0.8s ease-out;
+        }
+        
+        .playlist-container:hover {
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .playlist-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .playlist-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .playlist-header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        
+        .playlist-items {
+            padding: 0;
+            list-style: none;
+        }
+        
+        .playlist-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: slideInLeftItem 0.5s ease-out forwards;
+        }
+        
+        @keyframes slideInLeftItem {
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .playlist-item:nth-child(1) { animation-delay: 0.1s; }
+        .playlist-item:nth-child(2) { animation-delay: 0.2s; }
+        .playlist-item:nth-child(3) { animation-delay: 0.3s; }
+        .playlist-item:nth-child(4) { animation-delay: 0.4s; }
+        .playlist-item:nth-child(5) { animation-delay: 0.5s; }
+        
+        .playlist-item:hover {
+            background: rgba(106, 17, 203, 0.05);
+            transform: translateX(-5px);
+        }
+        
+        .playlist-item.active {
+            background: rgba(106, 17, 203, 0.1);
+            border-right: 4px solid var(--primary);
+        }
+        
+        .playlist-item-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(106, 17, 203, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+        
+        .playlist-item.active .playlist-item-icon {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .playlist-item-content h4 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .playlist-item-content p {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .main-player-section {
+            flex: 2;
+        }
+        
+        .player-container {
             background: var(--card-bg);
             border-radius: 15px;
             overflow: hidden;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border: 1px solid #f0f0f0;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            transition: var(--transition);
+            animation: slideInRight 0.8s ease-out;
         }
         
-        .recitation-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        .player-container:hover {
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+        }
+        
+        .player-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .player-header h3 {
+            font-size: 1.5rem;
+        }
+        
+        .player-controls {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
         }
         
         .video-container {
@@ -318,18 +486,14 @@
             width: 100%;
             height: 100%;
             border: none;
+            transition: var(--transition);
         }
         
-        .recitation-info {
+        .player-info {
             padding: 20px;
         }
         
-        .recitation-info h3 {
-            margin-bottom: 10px;
-            color: var(--primary);
-        }
-        
-        .recitation-info p {
+        .player-info p {
             margin-bottom: 15px;
             font-size: 0.9rem;
             color: #666;
@@ -361,7 +525,14 @@
             flex: 1;
             min-width: 250px;
             margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out forwards;
         }
+        
+        .footer-section:nth-child(1) { animation-delay: 0.1s; }
+        .footer-section:nth-child(2) { animation-delay: 0.2s; }
+        .footer-section:nth-child(3) { animation-delay: 0.3s; }
         
         .footer-section h3 {
             color: var(--accent);
@@ -397,7 +568,7 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             color: white;
-            transition: all 0.3s;
+            transition: var(--transition);
             text-decoration: none;
         }
         
@@ -406,14 +577,37 @@
             transform: translateY(-3px);
         }
         
+        /* أيقونة اليوتيوب باللون الأحمر */
+        .youtube-social {
+            background: #ff0000 !important;
+            color: white !important;
+        }
+        
         .copyright {
             padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 0.9rem;
             color: #aaa;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.5s forwards;
         }
         
         /* تصميم متجاوب */
+        @media (max-width: 1024px) {
+            .recitations-layout {
+                flex-direction: column;
+            }
+            
+            .playlist-section {
+                max-width: 100%;
+            }
+            
+            .playlist-container {
+                position: static;
+                max-height: none;
+            }
+        }
+        
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
@@ -469,6 +663,71 @@
             0% { box-shadow: 0 0 0 0 rgba(106, 17, 203, 0.4); }
             70% { box-shadow: 0 0 0 10px rgba(106, 17, 203, 0); }
             100% { box-shadow: 0 0 0 0 rgba(106, 17, 203, 0); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        /* بطاقات إضافية */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .feature-card:nth-child(1) { animation-delay: 0.2s; }
+        .feature-card:nth-child(2) { animation-delay: 0.4s; }
+        .feature-card:nth-child(3) { animation-delay: 0.6s; }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .feature-card p {
+            color: #666;
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -528,68 +787,67 @@
         </div>
     </section>
 
-    <!-- قسم التلاوات -->
+    <!-- قسم التلاوات - التصميم الجديد -->
     <section class="recitations" id="recitations">
         <div class="container">
             <h2 class="section-title">التلاوات القرآنية</h2>
-            <div class="recitations-grid">
-                <!-- تلاوة 1 -->
-                <div class="recitation-card">
-                    <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/wa_DldRxnjU" title="سورة النصر - القارئ أدهم عطية" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <div class="recitation-info">
-                        <h3>سورة النصر</h3>
-                        <p>تلاوة خاشعة لسورة النصر بصوت القارئ أدهم عطية</p>
-                        <p class="note">هذه التلاوات مسجلة</p>
-                    </div>
-                </div>
-                
-                <!-- تلاوة 2 -->
-                <div class="recitation-card">
-                    <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/pnlRyYHJFuU" title="سورة الكافرون - القارئ أدهم عطية" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <div class="recitation-info">
-                        <h3>سورة الكافرون</h3>
-                        <p>تلاوة خاشعة لسورة الكافرون بصوت القارئ أدهم عطية</p>
-                        <p class="note">هذه التلاوات مسجلة</p>
+            <div class="recitations-layout">
+                <!-- قائمة التشغيل -->
+                <div class="playlist-section">
+                    <div class="playlist-container">
+                        <div class="playlist-header">
+                            <h3>قائمة التشغيل</h3>
+                            <p>اختر التلاوة للاستماع</p>
+                        </div>
+                        <ul class="playlist-items">
+                            <!-- سيتم ملؤها بواسطة JavaScript -->
+                        </ul>
                     </div>
                 </div>
                 
-                <!-- تلاوة 3 -->
-                <div class="recitation-card">
-                    <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/CMzh3p1aA98" title="سورة الكوثر - القارئ أدهم عطية" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <!-- مشغل الفيديو الرئيسي -->
+                <div class="main-player-section">
+                    <div class="player-container" id="main-player">
+                        <div class="player-header">
+                            <h3 id="current-surah">اختر تلاوة من القائمة</h3>
+                            <div class="player-controls">
+                                <button class="control-btn" id="prev-btn">
+                                    <i class="fas fa-step-backward"></i>
+                                </button>
+                                <button class="control-btn" id="play-btn">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <button class="control-btn" id="next-btn">
+                                    <i class="fas fa-step-forward"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="video-container">
+                            <iframe id="main-video" src="" title="تلاوة قرآنية" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="player-info">
+                            <p id="current-description">اختر تلاوة من القائمة للاستماع</p>
+                            <p class="note">هذه التلاوات مسجلة</p>
+                        </div>
                     </div>
-                    <div class="recitation-info">
-                        <h3>سورة الكوثر</h3>
-                        <p>تلاوة خاشعة لسورة الكوثر بصوت القارئ أدهم عطية</p>
-                        <p class="note">هذه التلاوات مسجلة</p>
-                    </div>
-                </div>
-                
-                <!-- تلاوة 4 -->
-                <div class="recitation-card">
-                    <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/DhZMWLffDuc" title="سورة الماعون - القارئ أدهم عطية" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <div class="recitation-info">
-                        <h3>سورة الماعون</h3>
-                        <p>تلاوة خاشعة لسورة الماعون بصوت القارئ أدهم عطية</p>
-                        <p class="note">هذه التلاوات مسجلة</p>
-                    </div>
-                </div>
-                
-                <!-- تلاوة 5 - سورة قريش المضافة -->
-                <div class="recitation-card">
-                    <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/NMHLf5oqzp0" title="سورة قريش - القارئ أدهم عطية" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <div class="recitation-info">
-                        <h3>سورة قريش</h3>
-                        <p>تلاوة خاشعة لسورة قريش بصوت القارئ أدهم عطية</p>
-                        <p class="note">هذه التلاوات مسجلة</p>
+                    
+                    <!-- بطاقات إضافية متحركة -->
+                    <div class="cards-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🎵</div>
+                            <h3>تلاوات خاشعة</h3>
+                            <p>استمع إلى تلاوات خاشعة تلامس القلوب</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🌟</div>
+                            <h3>أداء مميز</h3>
+                            <p>أداء فريد يجمع بين العذوبة والخشوع</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">💫</div>
+                            <h3>صوت عذب</h3>
+                            <p>صوت شجي يبعث الطمأنينة في النفوس</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -614,19 +872,53 @@
                     <h3>اتصل بنا</h3>
                     <p>البريد الإلكتروني: adhmtysalm@gmail.com</p>
                     <div class="social-links">
-                        <a href="https://youtube.com/@adhematiay-k7f?si=zjYhkZZaW5nkUX2n" target="_blank" class="social-link">
+                        <a href="https://youtube.com/@adhematiay-k7f?si=zjYhkZZaW5nkUX2n" target="_blank" class="social-link youtube-social">
                             <i class="fab fa-youtube"></i>
                         </a>
                     </div>
                 </div>
             </div>
             <div class="copyright">
-                <p>جميع الحقوق محفوظة &copy; 2023 موقع القارئ أدهم عطية</p>
+                <p>جميع الحقوق محفوظة &copy; 2025 موقع القارئ أدهم عطية</p>
             </div>
         </div>
     </footer>
 
     <script>
+        // بيانات التلاوات
+        const recitations = [
+            {
+                id: 1,
+                title: "سورة النصر",
+                description: "تلاوة خاشعة لسورة النصر بصوت القارئ أدهم عطية",
+                videoId: "wa_DldRxnjU"
+            },
+            {
+                id: 2,
+                title: "سورة الكافرون",
+                description: "تلاوة خاشعة لسورة الكافرون بصوت القارئ أدهم عطية",
+                videoId: "pnlRyYHJFuU"
+            },
+            {
+                id: 3,
+                title: "سورة الكوثر",
+                description: "تلاوة خاشعة لسورة الكوثر بصوت القارئ أدهم عطية",
+                videoId: "CMzh3p1aA98"
+            },
+            {
+                id: 4,
+                title: "سورة الماعون",
+                description: "تلاوة خاشعة لسورة الماعون بصوت القارئ أدهم عطية",
+                videoId: "DhZMWLffDuc"
+            },
+            {
+                id: 5,
+                title: "سورة قريش",
+                description: "تلاوة خاشعة لسورة قريش بصوت القارئ أدهم عطية",
+                videoId: "NMHLf5oqzp0"
+            }
+        ];
+
         // إنشاء النجوم العشوائية
         function createStars() {
             const starsContainer = document.getElementById('stars');
@@ -655,9 +947,74 @@
             }
         }
         
-        // تفعيل النجوم عند تحميل الصفحة
+        // تهيئة قائمة التشغيل
+        function initializePlaylist() {
+            const playlistItems = document.querySelector('.playlist-items');
+            
+            recitations.forEach((recitation, index) => {
+                const item = document.createElement('li');
+                item.classList.add('playlist-item');
+                if (index === 0) item.classList.add('active');
+                
+                item.innerHTML = `
+                    <div class="playlist-item-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="playlist-item-content">
+                        <h4>${recitation.title}</h4>
+                        <p>تلاوة قرآنية</p>
+                    </div>
+                `;
+                
+                item.addEventListener('click', () => {
+                    // إزالة النشط من جميع العناصر
+                    document.querySelectorAll('.playlist-item').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    
+                    // إضافة النشط للعنصر المحدد
+                    item.classList.add('active');
+                    
+                    // تغيير الفيديو
+                    changeVideo(recitation);
+                    
+                    // تحديث الفهرس الحالي
+                    currentIndex = index;
+                });
+                
+                playlistItems.appendChild(item);
+            });
+        }
+        
+        // تغيير الفيديو
+        function changeVideo(recitation) {
+            document.getElementById('current-surah').textContent = recitation.title;
+            document.getElementById('current-description').textContent = recitation.description;
+            
+            const iframe = document.getElementById('main-video');
+            iframe.src = `https://www.youtube.com/embed/${recitation.videoId}`;
+            
+            // إضافة تأثير للمشغل
+            const player = document.getElementById('main-player');
+            player.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                player.style.transform = 'scale(1)';
+            }, 300);
+        }
+        
+        // متغيرات التحكم
+        let currentIndex = 0;
+        let isPlaying = false;
+        
+        // تفعيل الموقع عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', function() {
             createStars();
+            initializePlaylist();
+            
+            // تحميل أول فيديو
+            if (recitations.length > 0) {
+                changeVideo(recitations[0]);
+            }
             
             // تنعيم التمرير للروابط الداخلية
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -677,8 +1034,33 @@
                 });
             });
             
-            // إضافة تأثيرات للبطاقات عند التمرير
-            const recitationCards = document.querySelectorAll('.recitation-card');
+            // إضافة وظائف أزرار التحكم
+            document.getElementById('prev-btn').addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + recitations.length) % recitations.length;
+                document.querySelectorAll('.playlist-item')[currentIndex].click();
+            });
+            
+            document.getElementById('next-btn').addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % recitations.length;
+                document.querySelectorAll('.playlist-item')[currentIndex].click();
+            });
+            
+            document.getElementById('play-btn').addEventListener('click', () => {
+                const iframe = document.getElementById('main-video');
+                if (isPlaying) {
+                    // إيقاف الفيديو (لا يمكن إيقاف فيديو يوتيوب برمجياً بسبب سياسات الأمان)
+                    // بدلاً من ذلك، سنقوم بتغيير الأيقونة فقط
+                    document.getElementById('play-btn').innerHTML = '<i class="fas fa-play"></i>';
+                } else {
+                    // تشغيل الفيديو (لا يمكن تشغيل فيديو يوتيوب برمجياً بسبب سياسات الأمان)
+                    // بدلاً من ذلك، سنقوم بتغيير الأيقونة فقط
+                    document.getElementById('play-btn').innerHTML = '<i class="fas fa-pause"></i>';
+                }
+                isPlaying = !isPlaying;
+            });
+            
+            // إضافة تأثيرات للعناصر عند التمرير
+            const animatedElements = document.querySelectorAll('.about-image, .about-text, .playlist-container, .player-container, .feature-card');
             
             const observerOptions = {
                 threshold: 0.1,
@@ -694,13 +1076,13 @@
                 });
             }, observerOptions);
             
-            recitationCards.forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px)';
-                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                observer.observe(card);
+            animatedElements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(element);
             });
         });
     </script>
 </body>
-</html>
+    </html>

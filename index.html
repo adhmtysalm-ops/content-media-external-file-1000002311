@@ -506,6 +506,72 @@
             margin-top: 10px;
         }
         
+        /* قسم التلاوات الصغيرة */
+        .shorts-section {
+            padding: 80px 0;
+            background: var(--light);
+        }
+        
+        .shorts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .short-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .short-card:nth-child(1) { animation-delay: 0.1s; }
+        .short-card:nth-child(2) { animation-delay: 0.2s; }
+        .short-card:nth-child(3) { animation-delay: 0.3s; }
+        .short-card:nth-child(4) { animation-delay: 0.4s; }
+        .short-card:nth-child(5) { animation-delay: 0.5s; }
+        
+        .short-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .short-video-container {
+            position: relative;
+            padding-bottom: 177.77%; /* 9:16 aspect ratio للشورتات */
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .short-video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .short-info {
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .short-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+        
+        .short-info p {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
         /* تذييل الصفحة */
         footer {
             background: var(--dark);
@@ -643,6 +709,10 @@
                 flex-direction: column;
                 align-items: center;
             }
+            
+            .shorts-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
         }
         
         /* تأثيرات إضافية */
@@ -748,6 +818,7 @@
                         <li><a href="#home">الرئيسية</a></li>
                         <li><a href="#about">نبذة عن القارئ</a></li>
                         <li><a href="#recitations">التلاوات</a></li>
+                        <li><a href="#shorts">التلاوات الصغيرة</a></li>
                         <li><a href="#contact">اتصل بنا</a></li>
                     </ul>
                 </nav>
@@ -854,6 +925,16 @@
         </div>
     </section>
 
+    <!-- قسم التلاوات الصغيرة -->
+    <section class="shorts-section" id="shorts">
+        <div class="container">
+            <h2 class="section-title">التلاوات الصغيرة (مقتطفات)</h2>
+            <div class="shorts-grid">
+                <!-- سيتم ملؤها بواسطة JavaScript -->
+            </div>
+        </div>
+    </section>
+
     <!-- تذييل الصفحة -->
     <footer id="contact">
         <div class="container">
@@ -867,6 +948,7 @@
                     <a href="#home">الرئيسية</a>
                     <a href="#about">نبذة عن القارئ</a>
                     <a href="#recitations">التلاوات</a>
+                    <a href="#shorts">التلاوات الصغيرة</a>
                 </div>
                 <div class="footer-section">
                     <h3>اتصل بنا</h3>
@@ -919,6 +1001,40 @@
             }
         ];
 
+        // بيانات التلاوات الصغيرة
+        const shorts = [
+            {
+                id: 1,
+                title: "مقتطف تلاوة 1",
+                description: "مقتطف تلاوة خاشعة من القارئ أدهم عطية",
+                videoId: "QBNU-sgouQk"
+            },
+            {
+                id: 2,
+                title: "مقتطف تلاوة 2",
+                description: "مقتطف تلاوة خاشعة من القارئ أدهم عطية",
+                videoId: "vSQ9MalmnFo"
+            },
+            {
+                id: 3,
+                title: "مقتطف تلاوة 3",
+                description: "مقتطف تلاوة خاشعة من القارئ أدهم عطية",
+                videoId: "Cx6RUUPzlVc"
+            },
+            {
+                id: 4,
+                title: "مقتطف تلاوة 4",
+                description: "مقتطف تلاوة خاشعة من القارئ أدهم عطية",
+                videoId: "I43oZFYgDfY"
+            },
+            {
+                id: 5,
+                title: "مقتطف تلاوة 5",
+                description: "مقتطف تلاوة خاشعة من القارئ أدهم عطية",
+                videoId: "kiV3PTNUMlE"
+            }
+        ];
+
         // إنشاء النجوم العشوائية
         function createStars() {
             const starsContainer = document.getElementById('stars');
@@ -962,7 +1078,7 @@
                     </div>
                     <div class="playlist-item-content">
                         <h4>${recitation.title}</h4>
-                        <p>تلاوة قرآنية</p>
+                        <p>${recitation.description}</p>
                     </div>
                 `;
                 
@@ -975,10 +1091,10 @@
                     // إضافة النشط للعنصر المحدد
                     item.classList.add('active');
                     
-                    // تغيير الفيديو
-                    changeVideo(recitation);
+                    // تحديث الفيديو
+                    updateVideo(recitation);
                     
-                    // تحديث الفهرس الحالي
+                    // تحديث المؤشر الحالي
                     currentIndex = index;
                 });
                 
@@ -986,101 +1102,100 @@
             });
         }
         
-        // تغيير الفيديو
-        function changeVideo(recitation) {
+        // تهيئة التلاوات الصغيرة
+        function initializeShorts() {
+            const shortsGrid = document.querySelector('.shorts-grid');
+            
+            shorts.forEach(short => {
+                const shortCard = document.createElement('div');
+                shortCard.classList.add('short-card');
+                
+                shortCard.innerHTML = `
+                    <div class="short-video-container">
+                        <iframe src="https://www.youtube.com/embed/${short.videoId}" 
+                                title="${short.title}" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="short-info">
+                        <h4>${short.title}</h4>
+                        <p>${short.description}</p>
+                    </div>
+                `;
+                
+                shortsGrid.appendChild(shortCard);
+            });
+        }
+        
+        // تحديث الفيديو الرئيسي
+        function updateVideo(recitation) {
             document.getElementById('current-surah').textContent = recitation.title;
             document.getElementById('current-description').textContent = recitation.description;
             
-            const iframe = document.getElementById('main-video');
-            iframe.src = `https://www.youtube.com/embed/${recitation.videoId}`;
-            
-            // إضافة تأثير للمشغل
-            const player = document.getElementById('main-player');
-            player.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                player.style.transform = 'scale(1)';
-            }, 300);
+            const videoIframe = document.getElementById('main-video');
+            videoIframe.src = `https://www.youtube.com/embed/${recitation.videoId}`;
         }
         
         // متغيرات التحكم
         let currentIndex = 0;
-        let isPlaying = false;
         
-        // تفعيل الموقع عند تحميل الصفحة
+        // تهيئة الصفحة عند التحميل
         document.addEventListener('DOMContentLoaded', function() {
             createStars();
             initializePlaylist();
+            initializeShorts();
             
-            // تحميل أول فيديو
+            // إذا كانت هناك تلاوات، قم بتعيين الأولى
             if (recitations.length > 0) {
-                changeVideo(recitations[0]);
+                updateVideo(recitations[0]);
             }
             
-            // تنعيم التمرير للروابط الداخلية
+            // التحكم في الأزرار
+            document.getElementById('prev-btn').addEventListener('click', function() {
+                currentIndex = (currentIndex - 1 + recitations.length) % recitations.length;
+                updateVideo(recitations[currentIndex]);
+                
+                // تحديث العنصر النشط في القائمة
+                document.querySelectorAll('.playlist-item').forEach((el, index) => {
+                    if (index === currentIndex) {
+                        el.classList.add('active');
+                    } else {
+                        el.classList.remove('active');
+                    }
+                });
+            });
+            
+            document.getElementById('next-btn').addEventListener('click', function() {
+                currentIndex = (currentIndex + 1) % recitations.length;
+                updateVideo(recitations[currentIndex]);
+                
+                // تحديث العنصر النشط في القائمة
+                document.querySelectorAll('.playlist-item').forEach((el, index) => {
+                    if (index === currentIndex) {
+                        el.classList.add('active');
+                    } else {
+                        el.classList.remove('active');
+                    }
+                });
+            });
+            
+            // تأثيرات التمرير السلس للروابط
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
                     
                     const targetId = this.getAttribute('href');
-                    if(targetId === '#') return;
+                    if (targetId === '#') return;
                     
                     const targetElement = document.querySelector(targetId);
-                    if(targetElement) {
+                    if (targetElement) {
                         window.scrollTo({
                             top: targetElement.offsetTop - 80,
                             behavior: 'smooth'
                         });
                     }
                 });
-            });
-            
-            // إضافة وظائف أزرار التحكم
-            document.getElementById('prev-btn').addEventListener('click', () => {
-                currentIndex = (currentIndex - 1 + recitations.length) % recitations.length;
-                document.querySelectorAll('.playlist-item')[currentIndex].click();
-            });
-            
-            document.getElementById('next-btn').addEventListener('click', () => {
-                currentIndex = (currentIndex + 1) % recitations.length;
-                document.querySelectorAll('.playlist-item')[currentIndex].click();
-            });
-            
-            document.getElementById('play-btn').addEventListener('click', () => {
-                const iframe = document.getElementById('main-video');
-                if (isPlaying) {
-                    // إيقاف الفيديو (لا يمكن إيقاف فيديو يوتيوب برمجياً بسبب سياسات الأمان)
-                    // بدلاً من ذلك، سنقوم بتغيير الأيقونة فقط
-                    document.getElementById('play-btn').innerHTML = '<i class="fas fa-play"></i>';
-                } else {
-                    // تشغيل الفيديو (لا يمكن تشغيل فيديو يوتيوب برمجياً بسبب سياسات الأمان)
-                    // بدلاً من ذلك، سنقوم بتغيير الأيقونة فقط
-                    document.getElementById('play-btn').innerHTML = '<i class="fas fa-pause"></i>';
-                }
-                isPlaying = !isPlaying;
-            });
-            
-            // إضافة تأثيرات للعناصر عند التمرير
-            const animatedElements = document.querySelectorAll('.about-image, .about-text, .playlist-container, .player-container, .feature-card');
-            
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-            
-            const observer = new IntersectionObserver(function(entries, observer) {
-                entries.forEach(entry => {
-                    if(entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, observerOptions);
-            
-            animatedElements.forEach(element => {
-                element.style.opacity = '0';
-                element.style.transform = 'translateY(30px)';
-                element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                observer.observe(element);
             });
         });
     </script>
